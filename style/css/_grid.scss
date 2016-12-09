@@ -1,0 +1,25 @@
+@import 'node_modules/gridle/sass/grid.scss';
+
+@include gridle_setup( (
+    context: 6,
+    gutter-width: 20px,
+    gutter-height: 10px,
+    direction: ltr
+    ) );
+
+@include gridle_register_state( mobile, (
+    max-width: 480px,
+    ) );
+
+@include gridle_register_state( tablet, (
+    min-width: 481px,
+    max-width: 1024px,
+    ) );
+
+@include gridle_register_state( desktop, (
+    min-width: 1025px,
+    ) );
+
+
+@include gridle_generate_classes();
+@include gridle_init();

@@ -10,7 +10,7 @@ body{
     background-color: $backgroundColor;
     color: $mainColor;
     font-family: Helvetica, sans-serif;
-    margin: 50px;
+    padding: 50px;
 }
 
 h1, h2, h3{
@@ -37,10 +37,6 @@ a{
     color: $linkColor;
 }
 
-div{
-    padding: 10px;
-}
-
 .form{
     background-color: $accentColor;
     font-weight: bold;
@@ -48,12 +44,9 @@ div{
 
 }
 
-input {
-    position: absolute;
-    right: 30px;
-    margin-right: 80px;
+.row{
+    margin-top: 10px;
 }
-
 
 ul{
     margin: 15px;

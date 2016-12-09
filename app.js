@@ -123,21 +123,21 @@ class PaceCalculator extends React.Component{
         return (
             <div className="content">
                 <div className="form">
-                    <div>
-                        <label>Distance (km) </label>
-                        <input type="text" value={this.state.distance} onChange={this.distanceChange}/>
+                    <div className="row">
+                        <label className="gr-3 gr-6@mobile">Distance (km) </label>
+                        <input type="text" className="gr-3 gr-6@mobile" value={this.state.distance} onChange={this.distanceChange}/>
                     </div>
-                    <div>
-                        <label>Finish time ((hh:)mm:ss) </label>
-                        <input type="text" value={this.state.time} onChange={this.timeChange}/>
+                    <div className="row">
+                        <label className="gr-3 gr-6@mobile">Finish time ((hh:)mm:ss) </label>
+                        <input type="text" className="gr-3 gr-6@mobile" value={this.state.time} onChange={this.timeChange}/>
                     </div>
-                    <div>
-                        <label>Split (percent) </label>
-                        <input type="text" value={this.state.split} onChange={this.splitChange}/>
+                    <div className="row">
+                        <label className="gr-3 gr-6@mobile">Split (percent) </label>
+                        <input type="text" className="gr-3 gr-6@mobile" value={this.state.split} onChange={this.splitChange}/>
                     </div>
                 </div>
                 <h2>Mean Pace: <span className="meanpace">{meanPace}</span></h2>
-                <h2>Speed: <span className="meankmh">{meanKMH}</span> km/h</h2>
+                <h2>Mean Speed: <span className="meankmh">{meanKMH}</span> km/h</h2>
                 <PacingChart data={pacing}/>
             </div>
         );
@@ -158,8 +158,9 @@ class App extends React.Component{
                     <li>Calculate splits!</li>
                     <li><del>Take care of non-integer distances (marathon!)</del></li>
                     <li>Hot compile/load CSS</li>
-                    <li>Push to Github</li>
-                    <li>Screens: mobile and desktop</li>
+                    <li><del>CSS grid</del></li>
+                    <li>Github demo site</li>
+                    <li><del>Screens: mobile and desktop</del></li>
                     <li><a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Explanation of negative splits</a></li>
                     <li><a href="http://ccoenraets.github.io/es6-tutorial-react/setup/">ReactJS tutorial.</a></li>
                     <li><a href="https://www.jonathan-petitcolas.com/2015/05/15/howto-setup-webpack-on-es6-react-application-with-sass.html">Webpack tutorial</a></li>
