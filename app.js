@@ -101,7 +101,7 @@ class PacingChart extends React.Component{
 class PaceCalculator extends React.Component{
     constructor(props){
         super(props);
-        this.state = {distance: '', time: '', split: ''};
+        this.state = {distance: this.props.distance, time: this.props.time, split: this.props.split};
         this.distanceChange = this.distanceChange.bind(this);
         this.timeChange = this.timeChange.bind(this);
         this.splitChange = this.splitChange.bind(this);
@@ -144,15 +144,14 @@ class PaceCalculator extends React.Component{
     }
 };
 
-PaceCalculator.defaultProps = {"distance": 10, "time": "00:45:00", "split": 0};
-//does not seem to work???
+PaceCalculator.defaultProps = {"distance": 5, "time": "00:25:00", "split": -1};
 
 class App extends React.Component{
     render() {
         return (
             <div>
-                <Header title="React Pacing Calculator"/>
-                <PaceCalculator distance="10" time="00:45:00" split="0"/>
+                <Header title="React Pacing Calculator"/> {/* could also put defaultprops here as distance="10" etc*/}
+                <PaceCalculator />
                 <h3> To Do and sources:</h3>
                 <ul>
                     <li>Calculate splits!</li>
@@ -171,4 +170,5 @@ class App extends React.Component{
     }
 };
 
+//ReactDOM.render(React.createElement(App, {"distance":10,"time":"00:45:00","split":0}), document.getElementById('app'));
 ReactDOM.render(<App/>,  document.getElementById("app"));
