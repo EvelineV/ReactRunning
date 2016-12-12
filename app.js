@@ -160,6 +160,7 @@ class App extends React.Component{
                     <li><del>CSS grid</del></li>
                     <li>Github demo site</li>
                     <li><del>Screens: mobile and desktop</del></li>
+                    <li><del>Put in default props </del></li>
                     <li><a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Explanation of negative splits</a></li>
                     <li><a href="http://ccoenraets.github.io/es6-tutorial-react/setup/">ReactJS tutorial.</a></li>
                     <li><a href="https://www.jonathan-petitcolas.com/2015/05/15/howto-setup-webpack-on-es6-react-application-with-sass.html">Webpack tutorial</a></li>
