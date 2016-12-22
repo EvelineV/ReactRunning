@@ -29,13 +29,24 @@ var calculatePace = function (distance, time, split){
     //parse
     let timestr = String(time);
     let add = 0;
-    let hours = 0;
+    time = time.split(':');
+    if (time.length < 3){
+        var hours = 0;
+        var minutes = Number(time[0]);
+        var seconds = Number(time[1]);
+    }
+    else{
+        var hours = Number(time[0]);
+        var minutes = Number(time[1]);
+        var seconds = Number(time[2]);
+    }
+    /*let hours = 0;
     if(timestr.length > 5){
         add = 3;
         hours = Number(timestr.substring(0,2));
     }
     let minutes=Number(timestr.substring(0+add,2+add));
-    let seconds=Number(timestr.substring(3+add,5+add));
+    let seconds=Number(timestr.substring(3+add,5+add));*/
     let totalSeconds = seconds + 60*(minutes + 60*hours);
     let meanPace = totalSeconds/distance;
     let meanKMH = kmph(totalSeconds,distance);
@@ -178,6 +189,7 @@ class App extends React.Component{
                     <li><del>Screens: mobile and desktop</del></li>
                     <li><del>Put in default props </del></li>
                     <li> Add speed column </li>
+                    <li><del> Improve time parsing </del></li>
                     <li><a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Explanation of negative splits</a></li>
                     <li><a href="http://ccoenraets.github.io/es6-tutorial-react/setup/">ReactJS tutorial.</a></li>
                     <li><a href="https://www.jonathan-petitcolas.com/2015/05/15/howto-setup-webpack-on-es6-react-application-with-sass.html">Webpack tutorial</a></li>
