@@ -11,9 +11,10 @@ var displayTime = function(seconds){
     let secondsMinusHours = seconds - hours*3600;
     let minutes = Math.floor(secondsMinusHours/60);
     let remainingSeconds = secondsMinusHours - minutes*60;
-    if (minutes < 10){minutes = String('0'+minutes);}
     remainingSeconds = Math.round(remainingSeconds);
+    if (remainingSeconds === 60){remainingSeconds = 0; minutes += 1;}
     if (remainingSeconds < 10){remainingSeconds = String('0'+remainingSeconds);}
+    if (minutes < 10){minutes = String('0'+minutes);}
     let display = '';
     if (hours > 0){
         display = String(hours+":"+minutes+":"+remainingSeconds);
@@ -42,32 +43,35 @@ var calculatePace = function (distance, time, split){
     // compute
     let splitFactor = 1+(split/100); //negative split ends the race faster.
     let t_one_numerator = 0
+    let tail = distance - Math.floor(distance);
     for (var k = 1; k <= distance; k++){
-        t_one_numerator += Math.pow(splitFactor,(k-1)/(distance-1))
+        t_one_numerator += Math.pow(splitFactor, k/(distance-1))
+    }
+    if(tail > 0.001 && distance > 0){
+        t_one_numerator += splitFactor*tail;
     }
     var pacing = [];
     var cumulativeTime = 0;
     var splitPace = totalSeconds/t_one_numerator; 
     pacing.push({mark: 0, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(0)});
-    console.log(splitFactor, totalSeconds, splitPace);
-    for(var mark = 1; mark <= distance; mark++){
+    for(var mark = 1; mark <= Math.floor(distance); mark++){
         // no splits implementation
         // splitPace = meanPace; 
         // splits implementation
-        splitPace = splitPace * Math.pow(splitFactor, (mark-1)/(distance-1));
+        splitPace = splitPace * Math.pow(splitFactor, 1/(distance-1));
         cumulativeTime += splitPace;
         pacing.push({mark: mark, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});
     }
-    if(distance - Math.floor(distance) > 0.001 && distance > 0){
+    if(tail > 0.001 && distance > 0){
         // no splits
-        console.log(mark+' '+distance);
-        splitPace = meanPace;
-        cumulativeTime = meanPace*distance;
+        //splitPace = meanPace;
+        //cumulativeTime = meanPace*distance;
+        // splits implementation
+        splitPace = splitPace * Math.pow(splitFactor, tail/(distance-1));
+        cumulativeTime += splitPace*tail;
         pacing.push({mark: distance, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});
         pacing.push({splitPace: '(tail: '+displayTime(splitPace*(distance-mark+1))+')'})
-        // splits
-        // TODO!
-    }
+        }
     //console.log(pacing);
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
@@ -166,13 +170,14 @@ class App extends React.Component{
                 <PaceCalculator />
                 <h3> To Do and sources:</h3>
                 <ul>
-                    <li>Calculate splits!</li>
+                    <li><del>Calculate splits!</del></li>
                     <li><del>Take care of non-integer distances (marathon!)</del></li>
                     <li>Hot compile/load CSS</li>
                     <li><del>CSS grid</del></li>
                     <li>Github demo site</li>
                     <li><del>Screens: mobile and desktop</del></li>
                     <li><del>Put in default props </del></li>
+                    <li> Add speed column </li>
                     <li><a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Explanation of negative splits</a></li>
                     <li><a href="http://ccoenraets.github.io/es6-tutorial-react/setup/">ReactJS tutorial.</a></li>
                     <li><a href="https://www.jonathan-petitcolas.com/2015/05/15/howto-setup-webpack-on-es6-react-application-with-sass.html">Webpack tutorial</a></li>
