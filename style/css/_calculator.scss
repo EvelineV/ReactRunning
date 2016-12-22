@@ -1,10 +1,16 @@
-/* http://colorhunt.co/c/37155 */
+/* http://colorhunt.co/c/37155 
 $mainColor: #283739;
 $secondColor: #2C5D63;
 $accentColor: #A2C11C;
-$backgroundColor: #E0E0E0;
+$backgroundColor: #E0E0E0; */
 
-$linkColor: $accentColor;
+/*  http://colorhunt.co/c/37155 */
+$mainColor: #222831;
+$secondColor: #393E46;
+$accentColor: #FCDA05;
+$backgroundColor: #FFFBE0;
+
+$linkColor: $secondColor;
 
 body{
     background-color: $backgroundColor;
@@ -13,10 +19,11 @@ body{
     padding: 50px;
 }
 
-h1, h2, h3{
+h2, h3{
     color: $secondColor;
 }
 h1{
+    color: $mainColor;
     font-size: 40px;
     margin-bottom: 20px;
 }
@@ -62,7 +69,7 @@ table{
     }
     td, th{
         text-align: right;
-        padding-left: 20px;
+        padding-left: 25px;
     }
 }
 

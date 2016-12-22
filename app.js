@@ -181,6 +181,9 @@ class App extends React.Component{
                 <PaceCalculator />
                 <h3> To Do and sources:</h3>
                 <ul>
+                    <li><a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Explanation of negative splits</a></li>
+                    <li><a href="http://ccoenraets.github.io/es6-tutorial-react/setup/">ReactJS tutorial.</a></li>
+                    <li><a href="https://www.jonathan-petitcolas.com/2015/05/15/howto-setup-webpack-on-es6-react-application-with-sass.html">Webpack tutorial</a></li>
                     <li><del>Calculate splits!</del></li>
                     <li><del>Take care of non-integer distances (marathon!)</del></li>
                     <li>Hot compile/load CSS</li>
@@ -188,11 +191,7 @@ class App extends React.Component{
                     <li>Github demo site</li>
                     <li><del>Screens: mobile and desktop</del></li>
                     <li><del>Put in default props </del></li>
-                    <li> Add speed column </li>
                     <li><del> Improve time parsing </del></li>
-                    <li><a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Explanation of negative splits</a></li>
-                    <li><a href="http://ccoenraets.github.io/es6-tutorial-react/setup/">ReactJS tutorial.</a></li>
-                    <li><a href="https://www.jonathan-petitcolas.com/2015/05/15/howto-setup-webpack-on-es6-react-application-with-sass.html">Webpack tutorial</a></li>
                     <li></li>
                 </ul>
             </div>
