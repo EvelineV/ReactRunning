@@ -25,6 +25,7 @@ var displayTime = function(seconds){
 
 var calculatePace = function (distance, time, split){
     /*fills the table, still needs split calculation*/
+    //parse
     let timestr = String(time);
     let add = 0;
     let hours = 0;
@@ -38,23 +39,34 @@ var calculatePace = function (distance, time, split){
     let meanPace = totalSeconds/distance;
     let meanKMH = kmph(totalSeconds,distance);
     if(distance==0){ meanPace = 0; meanKMH=0;}
+    // compute
     let splitFactor = 1+(split/100); //negative split ends the race faster.
-    //console.log(splitFactor);
+    let t_one_numerator = 0
+    for (var k = 1; k <= distance; k++){
+        t_one_numerator += Math.pow(splitFactor,(k-1)/(distance-1))
+    }
     var pacing = [];
-    var cumulative = 0;
     var cumulativeTime = 0;
-    var splitPace = 0; 
-    for(var mark = 0; mark <= distance; mark++){
-        splitPace = meanPace; // (*splitFactor, implement later)
-        cumulativeTime = meanPace*mark;
+    var splitPace = totalSeconds/t_one_numerator; 
+    pacing.push({mark: 0, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(0)});
+    console.log(splitFactor, totalSeconds, splitPace);
+    for(var mark = 1; mark <= distance; mark++){
+        // no splits implementation
+        // splitPace = meanPace; 
+        // splits implementation
+        splitPace = splitPace * Math.pow(splitFactor, (mark-1)/(distance-1));
+        cumulativeTime += splitPace;
         pacing.push({mark: mark, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});
     }
     if(distance - Math.floor(distance) > 0.001 && distance > 0){
+        // no splits
         console.log(mark+' '+distance);
         splitPace = meanPace;
         cumulativeTime = meanPace*distance;
         pacing.push({mark: distance, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});
         pacing.push({splitPace: '(tail: '+displayTime(splitPace*(distance-mark+1))+')'})
+        // splits
+        // TODO!
     }
     //console.log(pacing);
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
