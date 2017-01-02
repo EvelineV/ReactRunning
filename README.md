@@ -6,6 +6,11 @@ This is my practice project for ReactJS. Tutorials used are <a href="http://ccoe
 <a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Why would you want to run with splits?</a>
 
 # Get started
+You need the Node package manager and the Python virtualenv package:
+<ul>
+<li> apt install npm </li>
+<li> pip install virtualenv </li>
+</ul>
 Clone the repository, change into a new virtual environment, install the dependencies and start the development server with the following terminal commands:
 <ul>
 <li>git clone https://github.com/EvelineV/ReactRunning</li>
