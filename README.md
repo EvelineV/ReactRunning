@@ -6,24 +6,12 @@ This is my practice project for ReactJS. Tutorials used are <a href="http://ccoe
 <a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Why would you want to run with splits?</a>
 
 # Get started
-Clone the repository:
-
-git clone https://github.com/EvelineV/ReactRunning
-
-Work in a new virtual environment:
-
-virtualenv venv
-
-source venv/bin/activate
-
-install dependencies:
-
-npm install
-
-start the development server:
-
-npm start
-
-view in browser:
-
-localhost:8080
+Clone the repository, change into a new virtual environment, install the dependencies and start the development server with the following terminal commands:
+<ul>
+<li>git clone https://github.com/EvelineV/ReactRunning</li>
+<li>virtualenv venv</li>
+<li>source venv/bin/activate</li>
+<li>npm install</li>
+<li>npm start</li>
+</ul>
+Then view <a href="localhost:8080">localhost:8080</a> in your favourite browser
