@@ -5,7 +5,7 @@ This is my practice project for ReactJS. Tutorials used are <a href="http://ccoe
 
 <a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Running with splits discussion.</a>
 
-## Get started
+## Get started (Ubuntu version)
 You need the Node Package Manager and the Python package virtualenv:
 ```bash
 apt install npm
@@ -21,3 +21,10 @@ npm install
 npm start
 ```
 Then view <a href="localhost:8080">localhost:8080</a> in your favourite browser
+
+## Get started (Linux Mint version)
+You need to install NodeJS-legacy:
+```bash
+apt install nodejs-legacy
+```
+and another virtual environment manager, for example conda. Otherwise, the Ubuntu instructions apply.
