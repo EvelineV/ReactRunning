@@ -13,6 +13,7 @@ var displayTime = function(seconds){
     let remainingSeconds = secondsMinusHours - minutes*60;
     remainingSeconds = Math.round(remainingSeconds);
     if (remainingSeconds === 60){remainingSeconds = 0; minutes += 1;}
+    if (minutes === 60){minutes = 0; hours += 1;}
     if (remainingSeconds < 10){remainingSeconds = String('0'+remainingSeconds);}
     if (minutes < 10){minutes = String('0'+minutes);}
     let display = '';
