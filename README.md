@@ -22,7 +22,7 @@ npm start
 ```
 Then view <a href="localhost:8080">localhost:8080</a> in your favourite browser
 
-## Troubleshooting
+### Troubleshooting
 You may need to install NodeJS-legacy:
 ```bash
 apt install nodejs-legacy
