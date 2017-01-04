@@ -29,7 +29,6 @@ var calculatePace = function (distance, time, split){
     /*fills the table, still needs split calculation*/
     //parse
     let timestr = String(time);
-    let add = 0;
     time = time.split(':');
     if (time.length < 3){
         var hours = 0;
@@ -41,13 +40,6 @@ var calculatePace = function (distance, time, split){
         var minutes = Number(time[1]);
         var seconds = Number(time[2]);
     }
-    /*let hours = 0;
-    if(timestr.length > 5){
-        add = 3;
-        hours = Number(timestr.substring(0,2));
-    }
-    let minutes=Number(timestr.substring(0+add,2+add));
-    let seconds=Number(timestr.substring(3+add,5+add));*/
     let totalSeconds = seconds + 60*(minutes + 60*hours);
     let meanPace = totalSeconds/distance;
     let meanKMH = kmph(totalSeconds,distance);
