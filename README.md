@@ -22,9 +22,9 @@ npm start
 ```
 Then view <a href="localhost:8080">localhost:8080</a> in your favourite browser
 
-## Get started (Linux Mint version)
-You need to install NodeJS-legacy:
+## Troubleshooting
+You may need to install NodeJS-legacy:
 ```bash
 apt install nodejs-legacy
 ```
-and another virtual environment manager, for example conda. Otherwise, the Ubuntu instructions apply.
+and another virtual environment manager, for example <a href="https://anaconda.org/">conda</a>. 
