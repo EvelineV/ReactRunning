@@ -72,6 +72,10 @@ var calculatePace = function (distance, time, split, interval){
     let cumulativeTime = 0;
     let splitPace = totalSeconds/t_one_numerator; 
     let kmPace = splitPace/changePace;
+    if(interval < 2){
+        kmPace = meanPace;
+        splitPace = kmPace*changePace;
+    }
     pacing.push({mark: 0, cumulativeTime: displayTime(cumulativeTime), kmPace: displayTime(kmPace), splitPace: displayTime(splitPace)});
     for(let i=1; i < checkpoints.length; i++){
         let mark = checkpoints[i];
