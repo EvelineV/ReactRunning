@@ -5,6 +5,9 @@ This is my practice project for ReactJS. Tutorials used are <a href="http://ccoe
 
 <a href="http://www.runnersworld.com/race-training/learn-how-to-run-negative-splits">Running with splits discussion.</a>
 
+## Branches
+The 'master' branch lets you choose the number of splits you want in your run. Branch 'perKM' increases or decreases your velocity with every kilometer.
+ 
 ## Get started (Ubuntu version)
 You need the Node Package Manager and the Python package virtualenv:
 ```bash
