@@ -27,7 +27,6 @@ var displayTime = function(seconds){
 var computeTotalSeconds = function(time){
     /* Time calculations */
     time = time.split(':');
-    console.log(time)
     let hours, minutes, seconds;
     if (time.length < 3){
         hours = 0;
@@ -50,19 +49,19 @@ var calculatePace = function (distance, time, split, interval){
     let meanKMH = kmph(totalSeconds, distance);
     if(distance===0){ meanPace = 0; meanKMH=0;}
     /* compute split parameters */
+    interval = Math.floor(interval);
+    let checkpoints = [];
+    for(let k = 1; k <= interval; k++){
+        checkpoints.push(k*distance/interval)
+    }
     let splitFactor = 1+(split/100);
     let t_one_numerator = 0
     let tail = distance - Math.floor(distance);
     for (let k = 1; k <= distance; k++){
         t_one_numerator += Math.pow(splitFactor, k/(distance-1))
     }
-    if(tail > 0.001 && distance > 0){
+    if(tail > 0.0001 && distance > 0){
         t_one_numerator += splitFactor*tail;
-    }
-    interval = Math.floor(interval);
-    let checkpoints = [];
-    for(let k = 1; k <= interval; k++){
-        checkpoints.push(k*distance/interval)
     }
     /* start iteration */
     let pacing = [];
@@ -78,7 +77,7 @@ var calculatePace = function (distance, time, split, interval){
         cumulativeTime += splitPace;
         pacing.push({mark: mark, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});
     }
-    if(tail > 0.001 && distance > 0){
+    if(tail > 0.0001){
         // no splits:
         // splitPace = meanPace;
         // cumulativeTime = meanPace*distance;
@@ -86,7 +85,7 @@ var calculatePace = function (distance, time, split, interval){
         splitPace = splitPace * Math.pow(splitFactor, tail/(distance-1));
         cumulativeTime += splitPace*tail;
         pacing.push({mark: distance, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});
-        pacing.push({splitPace: '(tail: '+displayTime(splitPace*(distance-mark+1))+')'})
+        //pacing.push({splitPace: '(tail: '+displayTime(splitPace*(distance-mark+1))+')'})
         }
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
