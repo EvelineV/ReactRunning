@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "scss": "node-sass --output-style compressed -o dist/css style/css",
-    "start": "node-sass --output-style compressed -o dist/css style/css && webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot"
   },
   "author": "",
   "license": "ISC",
