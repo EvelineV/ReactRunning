@@ -6,12 +6,11 @@ var kmph = function(seconds,distance){
 }
 
 var displayTime = function(seconds){
-    /* convert time in seconds to hh:mm:ss */
+    /* convert time in seconds to hh:mm:ss (for display only) */
     let hours = Math.floor(seconds/3600);
     let secondsMinusHours = seconds - hours*3600;
     let minutes = Math.floor(secondsMinusHours/60);
-    let remainingSeconds = secondsMinusHours - minutes*60;
-    remainingSeconds = Math.round(remainingSeconds);
+    let remainingSeconds = Math.round(secondsMinusHours - minutes*60);
     if (remainingSeconds === 60){remainingSeconds = 0; minutes += 1;}
     if (minutes === 60){minutes = 0; hours += 1;}
     if (remainingSeconds < 10){remainingSeconds = String('0'+remainingSeconds);}
@@ -29,15 +28,16 @@ var computeTotalSeconds = function(time){
     /* Time calculations */
     time = time.split(':');
     console.log(time)
+    let hours, minutes, seconds;
     if (time.length < 3){
-        var hours = 0;
-        var minutes = Number(time[0]);
-        var seconds = Number(time[1]);
+        hours = 0;
+        minutes = Number(time[0]);
+        seconds = Number(time[1]);
     }
     else{
-        var hours = Number(time[0]);
-        var minutes = Number(time[1]);
-        var seconds = Number(time[2]);
+        hours = Number(time[0]);
+        minutes = Number(time[1]);
+        seconds = Number(time[2]);
     }
     let totalSeconds = seconds + 60*(minutes + 60*hours);
     return totalSeconds;
@@ -53,17 +53,24 @@ var calculatePace = function (distance, time, split, interval){
     let splitFactor = 1+(split/100);
     let t_one_numerator = 0
     let tail = distance - Math.floor(distance);
-    for (var k = 1; k <= distance; k++){
+    for (let k = 1; k <= distance; k++){
         t_one_numerator += Math.pow(splitFactor, k/(distance-1))
     }
     if(tail > 0.001 && distance > 0){
         t_one_numerator += splitFactor*tail;
     }
-    var pacing = [];
-    var cumulativeTime = 0;
-    var splitPace = totalSeconds/t_one_numerator; 
+    interval = Math.floor(interval);
+    let checkpoints = [];
+    for(let k = 1; k <= interval; k++){
+        checkpoints.push(k*distance/interval)
+    }
+    /* start iteration */
+    let pacing = [];
+    let cumulativeTime = 0;
+    let splitPace = totalSeconds/t_one_numerator; 
     pacing.push({mark: 0, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(0)});
     for(var mark = 1; mark <= Math.floor(distance); mark++){
+        // work in: checkpoints
         // no splits implementation:
         // splitPace = meanPace; 
         // splits implementation:
@@ -97,9 +104,9 @@ class Header extends React.Component {
 
 class PacingChart extends React.Component{
     render(){
-        var passes = this.props.data.map((pacing)=>{
+        let passes = this.props.data.map((pacing)=>{
             return (
-                <tr key={pacing.mark}>
+                <tr key={pacing.mark} className={(pacing.mark > Math.floor(pacing.mark) ? 'non-km-mark': '')}>
                     <td>{pacing.mark}</td>
                     <td>{pacing.cumulativeTime}</td>
                     <td>{pacing.splitPace}</td>
@@ -175,7 +182,7 @@ class PaceCalculator extends React.Component{
     }
 };
 
-PaceCalculator.defaultProps = {"distance": 5, "time": "00:25:00", "split": -1, "interval": 2};
+PaceCalculator.defaultProps = {"distance": 5.2, "time": "00:25:00", "split": -1, "interval": 2};
 
 class App extends React.Component{
     render() {

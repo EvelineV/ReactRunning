@@ -67,6 +67,9 @@ table{
     thead{
         font-weight: bold;
     }
+    tr.non-km-mark{
+            font-style: italic;
+    }
     td, th{
         text-align: right;
         padding-left: 25px;
