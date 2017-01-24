@@ -50,7 +50,7 @@ var calculatePace = function (distance, time, split, interval){
     if(distance===0){ meanPace = 0; meanKMH=0;}
     /* compute split parameters */
     interval = Math.floor(interval);
-    let checkpoints = [...Array(Math.floor(distance+1)).keys()];
+    let checkpoints = [...Array(Math.floor(distance)+1).keys()];
     let changePace = Number((distance/interval).toFixed(4));
     for(let k = 1; k <= interval; k++){
         checkpoints.push(Number((k*distance/interval).toFixed(4)));
@@ -62,7 +62,6 @@ var calculatePace = function (distance, time, split, interval){
             return false;
         }
     });
-    console.log(checkpoints);
     let splitFactor = 1+(split/100);
     let t_one_numerator = 0
     for (let k = 1; k <= interval; k++){
@@ -80,7 +79,7 @@ var calculatePace = function (distance, time, split, interval){
         if(mark-Math.floor(mark)>0.001){
             cumulativeTime += kmPace*(mark-Math.floor(mark));
             pacing.push({mark: mark, cumulativeTime: displayTime(cumulativeTime), kmPace: displayTime(kmPace), splitPace: displayTime(splitPace)});
-            splitPace *= Math.pow(splitFactor, 1/(interval-2));
+            splitPace *= Math.pow(splitFactor, 1/(interval-1));
             kmPace = splitPace/changePace;
         }
         else if(mark - checkpoints[i-1] < 1){
@@ -188,7 +187,7 @@ class PaceCalculator extends React.Component{
     }
 };
 
-PaceCalculator.defaultProps = {"distance": 5.2, "time": "00:25:00", "split": -1, "interval": 4};
+PaceCalculator.defaultProps = {"distance": 5.0, "time": "00:25:00", "split": -1, "interval": 2};
 
 class App extends React.Component{
     render() {
