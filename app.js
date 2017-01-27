@@ -50,6 +50,7 @@ var calculatePace = function (distance, time, split, interval){
     if(distance===0){ meanPace = 0; meanKMH=0;}
     /* compute split parameters */
     interval = Math.floor(interval);
+    if(interval===0){ interval=1; }
     let checkpoints = [...Array(Math.floor(distance)+1).keys()];
     let changePace = Number((distance/interval).toFixed(4));
     for(let k = 1; k <= interval; k++){
