@@ -70,12 +70,26 @@ var calculatePace = function (distance, time, split, interval){
     /* start iteration */
     let pacing = [];
     let cumulativeTime = 0;
+    let kmtime = 0;
     let splitPace = totalSeconds/t_one_numerator; 
+    let splitList = [splitPace];
     pacing.push({mark: 0, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(0)});
-    for(let mark = 0; mark < checkpoints.length; mark++){
-            splitPace = splitPace * Math.pow(splitFactor, 1/(interval-1));
-            cumulativeTime += splitPace;
-            pacing.push({mark: checkpoints[mark], cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});        
+    for(let k = 0; k < checkpoints.length; k++){
+        let mark = checkpoints[k];
+        splitPace = splitPace * Math.pow(splitFactor, 1/(interval-1));
+        splitList.push(splitPace);
+        cumulativeTime += splitPace;
+        pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});        
+    }
+    console.log(splitList)
+    for(let mark = 1; mark <= distance; mark++){
+        for(let k = 0; k <= checkpoints.length; k++){
+            if(parseFloat(checkpoints[k]) > parseFloat(mark)){
+                splitPace = splitList[k+1];
+                break;
+            }
+        }
+        pacing.push({mark: mark.toFixed(2), splitPace: displayTime(splitPace)});
     }
     pacing.sort(function(a,b){
         if(parseFloat(a.mark)>parseFloat(b.mark)){
@@ -103,7 +117,7 @@ class PacingChart extends React.Component{
         let passes = this.props.data.map((pacing)=>{
             return (
                 <tr key={pacing.mark} className={(pacing.mark > Math.floor(pacing.mark) ? 'non-km-mark': '')}>
-                    <td>{pacing.mark.toFixed(2)}</td>
+                    <td>{pacing.mark}</td>
                     <td>{pacing.cumulativeTime}</td>
                     <td>{pacing.kmPace}</td>
                     <td>{pacing.splitPace}</td>
