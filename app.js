@@ -71,9 +71,10 @@ var calculatePace = function (distance, time, split, interval){
     let pacing = [];
     let cumulativeTime = 0;
     let kmtime = 0;
+    let kmpace = 0;
     let splitPace = totalSeconds/t_one_numerator; 
     let splitList = [splitPace];
-    pacing.push({mark: 0, cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(0)});
+    pacing.push({mark: 0.00, cumulativeTime: displayTime(cumulativeTime), kmPace: displayTime(0), splitPace: displayTime(0)});
     for(let k = 0; k < checkpoints.length; k++){
         let mark = checkpoints[k];
         splitPace = splitPace * Math.pow(splitFactor, 1/(interval-1));
@@ -81,7 +82,6 @@ var calculatePace = function (distance, time, split, interval){
         cumulativeTime += splitPace;
         pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});        
     }
-    console.log(splitList)
     for(let mark = 1; mark <= distance; mark++){
         for(let k = 0; k <= checkpoints.length; k++){
             if(parseFloat(checkpoints[k]) > parseFloat(mark)){
@@ -89,10 +89,12 @@ var calculatePace = function (distance, time, split, interval){
                 break;
             }
         }
-        pacing.push({mark: mark.toFixed(2), splitPace: displayTime(splitPace)});
+        kmtime += splitPace/(distance/interval);
+        kmpace = splitPace/(distance/interval);
+        pacing.push({mark: mark.toFixed(2), cumulativeTime: displayTime(kmtime), kmPace: displayTime(kmpace), splitPace: displayTime(splitPace)});
     }
     pacing.sort(function(a,b){
-        if(parseFloat(a.mark)>parseFloat(b.mark)){
+        if(parseFloat(a['mark'])>=parseFloat(b['mark'])){
             return true;
         } else {
             return false;
