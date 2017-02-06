@@ -67,13 +67,17 @@ table{
     thead{
         font-weight: bold;
     }
-    tr.non-km-mark{
+    tr.splitmark{
             font-style: italic;
             font-weight: bold;
     }
     td, th{
         text-align: right;
         padding-left: 25px;
+    }
+    tr:last-child{
+        font-style: italic;
+        font-weight: bold;
     }
 }
 

@@ -42,7 +42,7 @@ var computeTotalSeconds = function(time){
     return totalSeconds-1;
 }
 
-var calculatePace = function (distance, time, split, interval){
+var calculatePace = function(distance, time, split, interval){
     /* compute some easy values */   
     const totalSeconds = computeTotalSeconds(time);
     let meanPace = totalSeconds/distance;
@@ -66,16 +66,22 @@ var calculatePace = function (distance, time, split, interval){
     let kmpace = 0;
     let splitPace = totalSeconds/t_one_numerator; 
     let splitList = [splitPace];
-    pacing.push({mark: 0.00, cumulativeTime: displayTime(cumulativeTime), kmPace: displayTime(0), splitPace: displayTime(0)});
+    pacing.push({mark: "0.00", cumulativeTime: displayTime(cumulativeTime), kmPace: null, splitPace: null, interval: 0});
     for(let k = 0; k < checkpoints.length; k++){
         let mark = checkpoints[k];
         splitPace = splitPace * Math.pow(splitFactor, 1/(interval-1));
         splitList.push(splitPace);
         cumulativeTime += splitPace;
-        pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});        
+        if( distance-mark <= 0.001){
+            console.log(mark, Number(distance));
+            kmpace = displayTime(splitPace/(distance/interval));
+        } else{
+            kmpace=null;
+        }
+        pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), kmPace: kmpace, splitPace: displayTime(splitPace), interval: 1});        
     };
-    for(let mark = 1; mark <= distance; mark++){
-        for(let k = 0; k <= checkpoints.length; k++){
+    for(let mark = 1; mark < distance; mark++){
+        for(let k = 0; k < checkpoints.length; k++){
             if(parseFloat(checkpoints[k]) > parseFloat(mark)){
                 splitPace = splitList[k+1];
                 break;
@@ -83,11 +89,12 @@ var calculatePace = function (distance, time, split, interval){
         }
         kmtime += splitPace/(distance/interval);
         kmpace = splitPace/(distance/interval);
-        pacing.push({mark: mark.toFixed(2), cumulativeTime: displayTime(kmtime), kmPace: displayTime(kmpace), splitPace: displayTime(splitPace)});
+        pacing.push({mark: mark.toFixed(2), cumulativeTime: displayTime(kmtime), kmPace: displayTime(kmpace), splitPace: displayTime(splitPace), interval: 0});
     };
     pacing.sort((a,b)=>{
         return Number(a.mark)-Number(b.mark)
-    })
+    });
+    //console.log(JSON.stringify(pacing,null,2))
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
 
@@ -106,7 +113,7 @@ class PacingChart extends React.Component{
     render(){
         let passes = this.props.data.map((pacing)=>{
             return (
-                <tr key={pacing.mark} className={(pacing.mark > Math.floor(pacing.mark) ? 'non-km-mark': '')}>
+                <tr key={pacing.mark} className={(pacing.interval > 0 ? 'splitmark': '')}>
                     <td>{pacing.mark}</td>
                     <td>{pacing.cumulativeTime}</td>
                     <td>{pacing.kmPace}</td>
