@@ -73,7 +73,7 @@ var calculatePace = function (distance, time, split, interval){
         splitList.push(splitPace);
         cumulativeTime += splitPace;
         pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), splitPace: displayTime(splitPace)});        
-    }
+    };
     for(let mark = 1; mark <= distance; mark++){
         for(let k = 0; k <= checkpoints.length; k++){
             if(parseFloat(checkpoints[k]) > parseFloat(mark)){
@@ -84,7 +84,10 @@ var calculatePace = function (distance, time, split, interval){
         kmtime += splitPace/(distance/interval);
         kmpace = splitPace/(distance/interval);
         pacing.push({mark: mark.toFixed(2), cumulativeTime: displayTime(kmtime), kmPace: displayTime(kmpace), splitPace: displayTime(splitPace)});
-    }
+    };
+    pacing.sort((a,b)=>{
+        return Number(a.mark)-Number(b.mark)
+    })
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
 
