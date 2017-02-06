@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+import {defaults, Line} from 'react-chartjs-2';
 
 var kmph = function(seconds,distance){
     return Math.round(100*3600*(distance/seconds))/100;
@@ -66,19 +67,22 @@ var calculatePace = function(distance, time, split, interval){
     let kmpace = 0;
     let splitPace = totalSeconds/t_one_numerator; 
     let splitList = [splitPace];
-    pacing.push({mark: "0.00", cumulativeTime: displayTime(cumulativeTime), kmPace: null, splitPace: null, interval: 0});
+    let speeds = 0;
+    pacing.push({mark: "0.00", cumulativeTime: displayTime(cumulativeTime), kmPace: displayTime(0), splitPace: displayTime(0), interval: 1, speeds: (distance/interval)/splitPace*3600});
     for(let k = 0; k < checkpoints.length; k++){
         let mark = checkpoints[k];
         splitPace = splitPace * Math.pow(splitFactor, 1/(interval-1));
+        speeds = (distance/interval)/splitPace*3600;
         splitList.push(splitPace);
         cumulativeTime += splitPace;
         if( distance-mark <= 0.001){
-            console.log(mark, Number(distance));
             kmpace = displayTime(splitPace/(distance/interval));
         } else{
             kmpace=null;
         }
-        pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), kmPace: kmpace, splitPace: displayTime(splitPace), interval: 1});        
+        if(cumulativeTime <= totalSeconds+1){
+            pacing.push({mark: Number(mark).toFixed(2), cumulativeTime: displayTime(cumulativeTime), kmPace: kmpace, splitPace: displayTime(splitPace), interval: 1, speeds: speeds});        
+        }
     };
     for(let mark = 1; mark < distance; mark++){
         for(let k = 0; k < checkpoints.length; k++){
@@ -92,9 +96,8 @@ var calculatePace = function(distance, time, split, interval){
         pacing.push({mark: mark.toFixed(2), cumulativeTime: displayTime(kmtime), kmPace: displayTime(kmpace), splitPace: displayTime(splitPace), interval: 0});
     };
     pacing.sort((a,b)=>{
-        return Number(a.mark)-Number(b.mark)
+        return Number(a.mark)-Number(b.mark);
     });
-    //console.log(JSON.stringify(pacing,null,2))
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
 
@@ -136,6 +139,83 @@ class PacingChart extends React.Component{
         );
     };
 };
+
+class FancyChart extends React.Component{
+    render(){
+        let km = [];
+        let timestamps = [];
+        let speed = [];
+        let datalists = this.props.data.map((pacing)=>{
+            if (pacing['interval']===1){
+                km.push(pacing['mark']);
+                timestamps.push(pacing['cumulativeTime']);
+                speed.push(pacing['speeds']);
+            }
+        })
+        return(
+            <div id="chart-container">
+            <Line data={{
+                labels: timestamps,
+                datasets: [{
+                    label: 'speed',
+                    data: speed,
+                    backgroundColor: 'rgba(57,62,70,0.5)',
+                    borderColor: 'rgba(57,62,70,1)',
+                    pointBackgroundColor: 'rgba(255,255,255,1)',
+                    pointBorderColor: 'rgba(57,62,70,1)',
+                    yAxisID: 'speed'
+                },{
+                    label: 'distance',
+                    data: km,
+                    backgroundColor: 'rgba(252,218,5,0.5)',
+                    borderColor: 'rgba(252,218,5,1)',
+                    pointBackgroundColor: 'rgba(255,255,255,1)',
+                    pointBorderColor: 'rgba(252,218,5,1)',
+                    yAxisID: 'km'
+                }]
+            }} 
+            options={{
+                legend: {
+                    position: 'bottom'
+                },
+                scales: {
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'time (min: sec)'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                            }
+                    }],
+                    yAxes: [{
+                        id: 'speed',
+                        position: 'left',
+                        gridLines: {display: false},
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'speed (km/h)'
+                        },
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    },
+                    {
+                        id: 'km',
+                        position: 'right',
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'distance (km)'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }} /></div>
+        );
+    }
+}
 
 class PaceCalculator extends React.Component{
     constructor(props){
@@ -186,6 +266,7 @@ class PaceCalculator extends React.Component{
                 <h2>Mean Pace: <span className="meanpace">{meanPace}</span></h2>
                 <h2>Mean Speed: <span className="meankmh">{meanKMH}</span> km/h</h2>
                 <PacingChart data={pacing}/>
+                <FancyChart data={pacing}/>
             </div>
         );
     }
