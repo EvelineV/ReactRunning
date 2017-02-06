@@ -42,14 +42,6 @@ var computeTotalSeconds = function(time){
     return totalSeconds-1;
 }
 
-/*var kmsort = function(a,b){ 
-    if(parseFloat(a) > parseFloat(b)){
-        return true;
-    } else {
-        return false;
-    }
-};*/
-
 var calculatePace = function (distance, time, split, interval){
     /* compute some easy values */   
     const totalSeconds = computeTotalSeconds(time);
@@ -93,13 +85,6 @@ var calculatePace = function (distance, time, split, interval){
         kmpace = splitPace/(distance/interval);
         pacing.push({mark: mark.toFixed(2), cumulativeTime: displayTime(kmtime), kmPace: displayTime(kmpace), splitPace: displayTime(splitPace)});
     }
-    pacing.sort(function(a,b){
-        if(parseFloat(a['mark'])>=parseFloat(b['mark'])){
-            return true;
-        } else {
-            return false;
-        }
-    })
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
 
