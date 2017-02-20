@@ -94,7 +94,6 @@ var calculatePace = function(distance, time, split, interval){
     pacing.sort((a,b)=>{
         return Number(a.mark)-Number(b.mark)
     });
-    //console.log(JSON.stringify(pacing,null,2))
     return {meanPace: displayTime(meanPace), meanKMH: meanKMH, pacing: pacing};
 }
 
@@ -197,12 +196,11 @@ class App extends React.Component{
     render() {
         return (
             <div>
-                <Header title="React Pacing Calculator"/> {/* could also put defaultprops here as distance="10" etc*/}
+                <Header title="React Pacing Calculator"/> 
                 <PaceCalculator />
             </div>
         );
     }
 };
 
-//ReactDOM.render(React.createElement(App, {"distance":10,"time":"00:45:00","split":0}), document.getElementById('app'));
 ReactDOM.render(<App/>,  document.getElementById("app"));
